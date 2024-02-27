@@ -1,3 +1,27 @@
 ###scRNA
 
 ###preprocessing
+
+#### load directory
+library(dplyr)
+library(Seurat)
+library(patchwork)
+library(ggplot2)
+library(RColorBrewer)
+
+
+
+
+
+
+### CITE-seq: normalization of CD45.1 and CD45.2 and ratio calculation
+{
+sob.combined = readRDS(sob.combined)
+DefaultAssay(sob.combined) <- "ADT"
+sob.combined <- subset(x = sob.combined, subset = `B0178-CD45-1-TotalSeqB` <600 & `B0157-CD45-2-TotalSeqB` <600)
+sob.combined <- NormalizeData(sob.combined, normalization.method = "LogNormalize",margin = 2)
+sob.combined <- ScaleData(sob.combined, assay="ADT", display.progress = FALSE)
+
+result = FetchData(object = sob.combined, vars = c("B0157-CD45-2-TotalSeqB", "B0178-CD45-1-TotalSeqB"))
+result$ratio = result[,1] - result[,2]
+}
