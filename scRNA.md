@@ -14,7 +14,7 @@ library(ggplot2)
 library(RColorBrewer)
 
 
-##RNA data (GEX) and CITseq data (adapted from Seurat pipeline: link to tutorial, Seurat V4)
+## RNA data (GEX) and CITseq data (adapted from Seurat pipeline: link to tutorial, Seurat V4)
 ## description of the steps:
 
 ## for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
@@ -22,7 +22,7 @@ library(RColorBrewer)
 ## Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
 
 
-##read the Cell ranger output
+## read the Cell ranger output
 ```Ruby
 data <- Read10X(data.dir = inputdir)
 ```
@@ -30,7 +30,7 @@ data <- Read10X(data.dir = inputdir)
 ```Ruby
 sob <- CreateSeuratObject(counts = data$`Gene Expression`, project = "DNMT3a")
 ```
-##percent.mt
+## percent.mt
 ```Ruby
 sob[["percent.mt"]] <- PercentageFeatureSet(sob, pattern = "^MT-")
 ```
@@ -45,16 +45,16 @@ plot2 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 cite <- CreateAssayObject(counts = data$`Antibody Capture`)
 sob[["ADT"]] = cite
 ```
-##remove unwanted cells
+## remove unwanted cells
 ```Ruby
 DefaultAssay(sob) <- "RNA"
 sob <- subset(sob, subset = nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15)
 ```
-##Normalizing and scaling the data using SCTransform
+## Normalizing and scaling the data using SCTransform
 ```Ruby
 sob <- SCTransform(sob)
 ```
-##Dimension reduction using the top 30 principal components
+## Dimension reduction using the top 30 principal components
 ## Clustering using the Louvain algorithm
 ## Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
 ```Ruby
@@ -64,9 +64,9 @@ sob <- FindClusters(sob, resolution = 0.5)
 sob <- RunUMAP(sob, dims = 1:30)
 ```
 
-##Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
-##When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
-##Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
+## Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
+## When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
+## Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
 ```Ruby
 sob12 = list(MET_1, MET_2,VFH_1, VFH_2)
 features <- SelectIntegrationFeatures(object.list = sob12)
