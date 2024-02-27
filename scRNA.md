@@ -23,43 +23,51 @@ library(RColorBrewer)
 
 
 ##read the Cell ranger output
+```Ruby
 data <- Read10X(data.dir = inputdir)
-
+```
 ## Initialize the Seurat object with the RNA raw (non-normalized data).
+```Ruby
 sob <- CreateSeuratObject(counts = data$`Gene Expression`, project = "DNMT3a")
-
+```
 ##percent.mt
+```Ruby
 sob[["percent.mt"]] <- PercentageFeatureSet(sob, pattern = "^MT-")
-
+```
 ## Visualize QC metrics as a violin plot
+```Ruby
 print(VlnPlot(sob, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3))
 plot1 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "percent.mt")
 plot2 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
-
+```
 ## add the CITEseq data to the RNA Seurat object
+```Ruby
 cite <- CreateAssayObject(counts = data$`Antibody Capture`)
 sob[["ADT"]] = cite
-
+```
 ##remove unwanted cells
+```Ruby
 DefaultAssay(sob) <- "RNA"
 sob <- subset(sob, subset = nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15)
-
-
+```
 ##Normalizing and scaling the data using SCTransform
+```Ruby
 sob <- SCTransform(sob)
-
+```
 ##Dimension reduction using the top 30 principal components
 ## Clustering using the Louvain algorithm
 ## Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
+```Ruby
 sob <- RunPCA(sob, features = VariableFeatures(object = sob))
 sob <- FindNeighbors(sob, dims = 1:30)
 sob <- FindClusters(sob, resolution = 0.5)
 sob <- RunUMAP(sob, dims = 1:30)
-
+```
 
 ##Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
 ##When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
 ##Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
+```Ruby
 sob12 = list(MET_1, MET_2,VFH_1, VFH_2)
 features <- SelectIntegrationFeatures(object.list = sob12)
 sob12 <- PrepSCTIntegration(sob12,anchor.features = features)
@@ -67,6 +75,7 @@ sob.anchors <- FindIntegrationAnchors(object.list = sob12, anchor.features = fea
 n = "rpca", k.anchor = 5)
 sob.combined <- IntegrateData(anchorset = sob.anchors, normalization.method = "SCT", dims = 1:50)
 DefaultAssay(sob.combined) <- "integrated"
+```
 # Run the standard workflow for visualization and clustering
 ```Ruby
 #sob.combined <- ScaleData(sob.combined, verbose = FALSE)
@@ -76,7 +85,6 @@ sob.combined <- RunUMAP(sob.combined, reduction = "pca", dims = 1:30)
 sob.combined <- FindNeighbors(sob.combined, reduction = "pca", dims = 1:30)
 sob.combined <- FindClusters(sob.combined, resolution = 0.5)
 ```
-
 
 ### CITE-seq: normalization of CD45.1 and CD45.2 and ratio calculation
 ```Ruby
