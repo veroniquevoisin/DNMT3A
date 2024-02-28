@@ -10,13 +10,11 @@ library(patchwork)
 library(ggplot2)
 library(RColorBrewer)
 ```
-
 ### RNA data (GEX) and CITseq data processing: pipeline adapted from Seurat (V4): link to tutorial, Seurat V4)
 Description of the steps:
  - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
  - Step2: data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
  - Step3: Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
-
 
 ### Reading the Cell ranger output
 ```Ruby
@@ -26,7 +24,6 @@ data <- Read10X(data.dir = inputdir)
 ```Ruby
 sob <- CreateSeuratObject(counts = data$`Gene Expression`, project = "DNMT3a")
 ```
-
 ### Quality control metrics
 ```Ruby
 sob[["percent.mt"]] <- PercentageFeatureSet(sob, pattern = "^MT-")
@@ -61,8 +58,7 @@ sob <- FindClusters(sob, resolution = 0.5)
 ```Ruby
 sob <- RunUMAP(sob, dims = 1:30)
 ```
-
-### Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
+### Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html]
 When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
 Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
 ```Ruby
@@ -83,7 +79,6 @@ sob.combined <- RunUMAP(sob.combined, reduction = "pca", dims = 1:30)
 sob.combined <- FindNeighbors(sob.combined, reduction = "pca", dims = 1:30)
 sob.combined <- FindClusters(sob.combined, resolution = 0.5)
 ```
-
 ### CITE-seq: normalization of CD45.1 and CD45.2 and ratio calculation
 ```Ruby
 sob.combined = readRDS(sob.combined)
