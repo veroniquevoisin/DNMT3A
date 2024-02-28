@@ -1,8 +1,7 @@
----
-layout: scRNA
----
+# CITE-seq
+## title: Metformin reduces the clonal fitness of Dnmt3aR878H hematopoietic stem and progenitor cells by reversing their aberrant metabolic and epigenetic state
 
-#### R libraries
+### R libraries
 ```Ruby
 library(dplyr)
 library(Seurat)
