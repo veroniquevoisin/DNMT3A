@@ -100,3 +100,14 @@ sob.combined <- ScaleData(sob.combined, assay="ADT", display.progress = FALSE)
 result = FetchData(object = sob.combined, vars = c("B0157-CD45-2-TotalSeqB", "B0178-CD45-1-TotalSeqB"))
 result$ratio = result[,1] - result[,2]
 ```
+
+###Cell type annotation
+
+###  UMAP
+```Ruby
+d %>% 
+  group_by(CellType2) %>% 
+  dplyr::summarise(xpos = median(UMAP1),
+                   ypos = median(UMAP2)) -> umap.lab.pos
+umap.lab.pos$lab <- umap.lab.pos$CellType2 %>% gsub("_|Cd3d\\.", "", .)
+```
