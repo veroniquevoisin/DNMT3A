@@ -49,12 +49,16 @@ sob <- subset(sob, subset = nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt
 sob <- SCTransform(sob)
 ```
 ### Dimension reduction using the top 30 principal components
-### Clustering using the Louvain algorithm
-### Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
 ```Ruby
 sob <- RunPCA(sob, features = VariableFeatures(object = sob))
+```
+### Clustering using the Louvain algorithm
+```Ruby
 sob <- FindNeighbors(sob, dims = 1:30)
 sob <- FindClusters(sob, resolution = 0.5)
+```
+### Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
+```Ruby
 sob <- RunUMAP(sob, dims = 1:30)
 ```
 
