@@ -2,43 +2,44 @@
 layout: scRNA
 ---
 
-#### load directory
+#### R libraries
+```Ruby
 library(dplyr)
 library(Seurat)
 library(patchwork)
 library(ggplot2)
 library(RColorBrewer)
-
+```
 
 ### RNA data (GEX) and CITseq data processing: pipeline adapted from Seurat (V4): link to tutorial, Seurat V4)
 Description of the steps:
  - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
-## data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
-## Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
+ - Step2: data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
+ - Step3: Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
 
 
-### read the Cell ranger output
+### Reading the Cell ranger output
 ```Ruby
 data <- Read10X(data.dir = inputdir)
 ```
-### initialize the Seurat object with the RNA raw (non-normalized data).
+### Initializing the Seurat object with the RNA raw (non-normalized data).
 ```Ruby
 sob <- CreateSeuratObject(counts = data$`Gene Expression`, project = "DNMT3a")
 ```
 
-### quality control metrics
+### Quality control metrics
 ```Ruby
 sob[["percent.mt"]] <- PercentageFeatureSet(sob, pattern = "^MT-")
 print(VlnPlot(sob, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3))
 plot1 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "percent.mt")
 plot2 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 ```
-### add CITEseq data to the RNA data Seurat object
+### Adding CITEseq data to the RNA data Seurat object
 ```Ruby
 cite <- CreateAssayObject(counts = data$`Antibody Capture`)
 sob[["ADT"]] = cite
 ```
-### remove unwanted cells
+### Removing unwanted cells
 ```Ruby
 DefaultAssay(sob) <- "RNA"
 sob <- subset(sob, subset = nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15)
@@ -69,7 +70,7 @@ n = "rpca", k.anchor = 5)
 sob.combined <- IntegrateData(anchorset = sob.anchors, normalization.method = "SCT", dims = 1:50)
 DefaultAssay(sob.combined) <- "integrated"
 ```
-### Run the standard workflow for visualization and clustering
+### Running the standard workflow for visualization and clustering
 ```Ruby
 #sob.combined <- ScaleData(sob.combined, verbose = FALSE)
 #sob.combined <- SCTransform(sob.combined, verbose = FALSE)
@@ -86,7 +87,6 @@ DefaultAssay(sob.combined) <- "ADT"
 sob.combined <- subset(x = sob.combined, subset = `B0178-CD45-1-TotalSeqB` <600 & `B0157-CD45-2-TotalSeqB` <600)
 sob.combined <- NormalizeData(sob.combined, normalization.method = "LogNormalize",margin = 2)
 sob.combined <- ScaleData(sob.combined, assay="ADT", display.progress = FALSE)
-
 result = FetchData(object = sob.combined, vars = c("B0157-CD45-2-TotalSeqB", "B0178-CD45-1-TotalSeqB"))
 result$ratio = result[,1] - result[,2]
 ```
