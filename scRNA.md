@@ -110,4 +110,14 @@ d %>%
   dplyr::summarise(xpos = median(UMAP1),
                    ypos = median(UMAP2)) -> umap.lab.pos
 umap.lab.pos$lab <- umap.lab.pos$CellType2 %>% gsub("_|Cd3d\\.", "", .)
+
+p = umap.gene.expression.celltype2 + scale_color_viridis(
+  discrete = TRUE, 
+  option="H",
+  alpha = 1,
+  begin = 0,
+  end = 1,
+  direction = 1,) 
+
+
 ```
