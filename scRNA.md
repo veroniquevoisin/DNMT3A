@@ -2,10 +2,6 @@
 layout: scRNA
 ---
 
-###scRNA
-
-###preprocessing
-
 #### load directory
 library(dplyr)
 library(Seurat)
@@ -14,49 +10,46 @@ library(ggplot2)
 library(RColorBrewer)
 
 
-## RNA data (GEX) and CITseq data (adapted from Seurat pipeline: link to tutorial, Seurat V4)
-## description of the steps:
-
-## for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
+### RNA data (GEX) and CITseq data processing: pipeline adapted from Seurat (V4): link to tutorial, Seurat V4)
+Description of the steps:
+ - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
 ## data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
 ## Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
 
 
-## read the Cell ranger output
+### read the Cell ranger output
 ```Ruby
 data <- Read10X(data.dir = inputdir)
 ```
-## Initialize the Seurat object with the RNA raw (non-normalized data).
+### initialize the Seurat object with the RNA raw (non-normalized data).
 ```Ruby
 sob <- CreateSeuratObject(counts = data$`Gene Expression`, project = "DNMT3a")
 ```
-## percent.mt
+
+### quality control metrics
 ```Ruby
 sob[["percent.mt"]] <- PercentageFeatureSet(sob, pattern = "^MT-")
-```
-## Visualize QC metrics as a violin plot
-```Ruby
 print(VlnPlot(sob, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3))
 plot1 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "percent.mt")
 plot2 <- FeatureScatter(sob, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 ```
-## add the CITEseq data to the RNA Seurat object
+### add CITEseq data to the RNA data Seurat object
 ```Ruby
 cite <- CreateAssayObject(counts = data$`Antibody Capture`)
 sob[["ADT"]] = cite
 ```
-## remove unwanted cells
+### remove unwanted cells
 ```Ruby
 DefaultAssay(sob) <- "RNA"
 sob <- subset(sob, subset = nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15)
 ```
-## Normalizing and scaling the data using SCTransform
+### Normalizing and scaling the data using SCTransform
 ```Ruby
 sob <- SCTransform(sob)
 ```
-## Dimension reduction using the top 30 principal components
-## Clustering using the Louvain algorithm
-## Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
+### Dimension reduction using the top 30 principal components
+### Clustering using the Louvain algorithm
+### Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional reduction technique
 ```Ruby
 sob <- RunPCA(sob, features = VariableFeatures(object = sob))
 sob <- FindNeighbors(sob, dims = 1:30)
@@ -64,9 +57,9 @@ sob <- FindClusters(sob, resolution = 0.5)
 sob <- RunUMAP(sob, dims = 1:30)
 ```
 
-## Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
-## When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
-## Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
+### Integration of the 4 samples (2 MET and 2 VEH) using Seurat reciprocal PCA (‘RPCA’)[https://satijalab.org/seurat/articles/integration_rpca.html
+When determining anchors between any two datasets using RPCA, each dataset is projected into the others PCA space and constrain the anchors by the same mutual neighborhood requirement.
+Anchors are identified using the FindIntegrationAnchors() function, which takes a list of Seurat objects as input, and these anchors are used to integrate the two datasets together with IntegrateData().
 ```Ruby
 sob12 = list(MET_1, MET_2,VFH_1, VFH_2)
 features <- SelectIntegrationFeatures(object.list = sob12)
@@ -76,7 +69,7 @@ n = "rpca", k.anchor = 5)
 sob.combined <- IntegrateData(anchorset = sob.anchors, normalization.method = "SCT", dims = 1:50)
 DefaultAssay(sob.combined) <- "integrated"
 ```
-# Run the standard workflow for visualization and clustering
+### Run the standard workflow for visualization and clustering
 ```Ruby
 #sob.combined <- ScaleData(sob.combined, verbose = FALSE)
 #sob.combined <- SCTransform(sob.combined, verbose = FALSE)
