@@ -101,9 +101,9 @@ result = FetchData(object = sob.combined, vars = c("B0157-CD45-2-TotalSeqB", "B0
 result$ratio = result[,1] - result[,2]
 ```
 
-###Cell type annotation
+###Cell type annotation (code: Federico Gaiti)
 
-###  UMAP
+###  UMAP (code: Alex C.H. Liu)
 ```Ruby
 d %>% 
   group_by(CellType2) %>% 
