@@ -1,6 +1,6 @@
 # CITE-seq
 ## code from data included in manuscript :
-***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs***
+***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs*** <br>
 Mohsen Hosseini 1 , Veronique Voisin 2# , Ali Chegini 1,3# , Angelica Varesi 1,4# , Severine Cathelin 1# , Dhanoop Manikoth Ayyathan 1 , Alex C.H. Liu 1,3 , Yitong Yang 1,3 , Vivian Wang 1,3 , Abdula Maher 1 , Eric Grignano 1 , Julie A. Reisz 5 , Angelo D’Alessandro 5 , Kira Young 6 , Yiyan Wu 3 , Martina Fiumara 7,8 , Samuele Ferrari 7,8 , Luigi Naldini 7,8 , Federico Gaiti 1,3 , Shraddha Pai 2,9 , Grace Egan 1,10 , Aaron D. Schimmer 1,3 , Gary D. Bader 2 , John E. Dick 1,4 , Stephanie Z. Xie 1 , Jennifer J. Trowbridge 6 , and Steven M. Chan 1,3 *
 Steven M. Chan1,3*
 
