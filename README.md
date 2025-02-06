@@ -28,7 +28,7 @@ mutation-driven CH in humans.
 
 *Data available under the GEO repository* <br>
  * GSE255101:
-   *  GSE254822 - [CITE-Seq]
+   *  GSE254822 - [CITE-Seq] / [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/scRNA.md)
    * GSE255100 - [bulkRNA]
    * GSE255550 - [ChIP-seq]
    * GSE255788 - [RRBS]
