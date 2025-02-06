@@ -1,11 +1,11 @@
 # Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs
 
-Mohsen Hosseini 1 , Veronique Voisin 2# , Ali Chegini 1,3# , Angelica Varesi 1,4# , Severine Cathelin 1# ,
-Dhanoop Manikoth Ayyathan 1 , Alex C.H. Liu 1,3 , Yitong Yang 1,3 , Vivian Wang 1,3 , Abdula Maher 1 ,
-Eric Grignano 1 , Julie A. Reisz 5 , Angelo D’Alessandro 5 , Kira Young 6 , Yiyan Wu 3 , Martina
-Fiumara 7,8 , Samuele Ferrari 7,8 , Luigi Naldini 7,8 , Federico Gaiti 1,3 , Shraddha Pai 2,9 , Grace Egan 1,10 ,
-Aaron D. Schimmer 1,3 , Gary D. Bader 2 , John E. Dick 1,4 , Stephanie Z. Xie 1 , Jennifer J.
-Trowbridge 6 , and Steven M. Chan 1,3 *
+Mohsen Hosseini , Veronique Voisin , Ali Chegini , Angelica Varesi , Severine Cathelin ,
+Dhanoop Manikoth Ayyathan , Alex C.H. Liu , Yitong Yang , Vivian Wang , Abdula Maher,
+Eric Grignano , Julie A. Reisz , Angelo D’Alessandro , Kira Young , Yiyan Wu , Martina
+Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grace Egan ,
+Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
+Trowbridge , and Steven M. Chan 
 
 *Abstract* <br>
 Clonal hematopoiesis (CH) arises when a hematopoietic stem cell (HSC) acquires a mutation
