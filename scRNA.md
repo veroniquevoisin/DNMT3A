@@ -22,10 +22,10 @@ Description of the steps:
  - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
  - Step2: data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
  - Step3: Unwanted cells were removed by applying filters to retain cells with nFeature_RNA > 500 & nFeature_RNA <8000 & percent.mt < 15
-- Step3: Normalization and Scaling of each individual sample using SCTransform; followed by dimension reduction and clustering
-- Step4: Integration of the 4 samples together using an anchor method (RPCA) followed by dimension reduction and clustering and UMAP on all cells of all samples
-- Step5: Detection of the  hematpoietic cell types on the integrated UMAP using AUCell.
-- Step6: Quantification of the mutant and wild type cells in each sample and in each cell population using the tag quantification of CD45.1 and CD45.2 
+ - Step4: Normalization and Scaling of each individual sample using SCTransform; followed by dimension reduction and clustering
+ - Step5: Integration of the 4 samples together using an anchor method (RPCA) followed by dimension reduction and clustering and UMAP on all cells of all samples
+ - Step6: Detection of the  hematpoietic cell types on the integrated UMAP using AUCell.
+ - Step7: Quantification of the mutant and wild type cells in each sample and in each cell population using the tag quantification of CD45.1 and CD45.2 
 
 ### Reading the Cell ranger output
 ```Ruby
