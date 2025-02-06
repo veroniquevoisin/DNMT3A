@@ -1,12 +1,7 @@
 # CITE-seq
 ## code from data included in manuscript :
-***Metformin reduces the clonal fitness of Dnmt3aR878H hematopoietic stem and progenitor cells by reversing their aberrant metabolic and epigenetic state.***
-
-*Mohsen Hosseini1, Veronique Voisin2#, Ali Chegini1,3#, Angelica Varesi1,4#, Severine Cathelin1#,
-Dhanoop Manikoth Ayyathan1, Alex C.H. Liu1,3, Yitong Yang1,3, Vivian Wang1,3, Abdula Maher1,
-Eric Grignano1, Julie A. Reisz5, Angelo D’Alessandro5, Kira Young6, Yiyan Wu3, Martina
-Fiumara7,8, Samuele Ferrari7,8, Luigi Naldini7,8, Federico Gaiti1,3, Shraddha Pai2,9, Aaron D.
-Schimmer1,3, Gary D. Bader2, John E. Dick1,4, Stephanie Z. Xie1, Jennifer J. Trowbridge6, and
+***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs***
+Mohsen Hosseini 1 , Veronique Voisin 2# , Ali Chegini 1,3# , Angelica Varesi 1,4# , Severine Cathelin 1# , Dhanoop Manikoth Ayyathan 1 , Alex C.H. Liu 1,3 , Yitong Yang 1,3 , Vivian Wang 1,3 , Abdula Maher 1 , Eric Grignano 1 , Julie A. Reisz 5 , Angelo D’Alessandro 5 , Kira Young 6 , Yiyan Wu 3 , Martina Fiumara 7,8 , Samuele Ferrari 7,8 , Luigi Naldini 7,8 , Federico Gaiti 1,3 , Shraddha Pai 2,9 , Grace Egan 1,10 , Aaron D. Schimmer 1,3 , Gary D. Bader 2 , John E. Dick 1,4 , Stephanie Z. Xie 1 , Jennifer J. Trowbridge 6 , and Steven M. Chan 1,3 *
 Steven M. Chan1,3*
 
 ### R libraries
