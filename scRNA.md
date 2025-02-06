@@ -19,7 +19,7 @@ library(RColorBrewer)
 ```
 ### RNA data (GEX) and CITseq data processing: 
 
-Pipeline adapted from Seurat (V4): [tutorial, Seurat V4)](https://satijalab.org/seurat/articles/get_started.html)
+Pipeline adapted from Seurat (V4): [tutorial](https://satijalab.org/seurat/articles/get_started.html)
 
 Description of the steps:
  - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
