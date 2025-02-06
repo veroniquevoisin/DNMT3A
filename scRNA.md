@@ -17,7 +17,10 @@ library(patchwork)
 library(ggplot2)
 library(RColorBrewer)
 ```
-### RNA data (GEX) and CITseq data processing: pipeline adapted from Seurat (V4): link to tutorial, Seurat V4)
+### RNA data (GEX) and CITseq data processing: 
+
+Pipeline adapted from Seurat (V4): [tutorial, Seurat V4)](https://satijalab.org/seurat/articles/get_started.html)
+
 Description of the steps:
  - Step1: for each sample (2 MET and 2 VEH), a Seurat object was initialized with the raw non-normalized data. 
  - Step2: data exploration, quality control plots were performed by exploring the data distribution of number of count per gene, number of feature per cell and and the percentage of mitochondria per cell
