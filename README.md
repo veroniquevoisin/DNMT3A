@@ -27,9 +27,9 @@ provide rationale for investigating metformin as a preventive intervention again
 mutation-driven CH in humans.
 
 *Data available under the GEO repository* <br>
- * GSE254822 - [CITE-Seq]
- * GSE255100 - [bulkRNA]
- * GSE255101 - 
- * GSE255550 - [ChIP-seq]
- * GSE255788 - [RRBS]
+ * GSE255101:
+   *  GSE254822 - [CITE-Seq]
+   * GSE255100 - [bulkRNA]
+   * GSE255550 - [ChIP-seq]
+   * GSE255788 - [RRBS]
 
