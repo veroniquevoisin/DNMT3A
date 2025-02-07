@@ -182,3 +182,26 @@ p = umap.gene.expression.celltype2 + scale_color_viridis(
 
 
 ```
+
+
+###  Sankey plot
+```Ruby
+p = ggplot(df,
+        aes(x = group, y = Freq, stratum = pop, 
+            alluvium = pop, fill = pop, label = labels)) +
+          scale_x_discrete(expand = c(.1, .1)) +
+          scale_fill_manual(values = cols)+
+        geom_flow() + 
+        geom_stratum(alpha = 1) + 
+        geom_text(stat = "stratum", size = 4, color=rev(cols))  +
+        theme(legend.position = "none") +
+        ggtitle("VEH")+
+        theme(
+          panel.border=element_rect(color="black", fill=NA),
+          panel.grid.major =element_blank(), 
+            panel.grid.minor = element_blank(), 
+          panel.background = element_blank(), 
+            axis.line = element_line(colour="black"),
+          axis.text=element_text(colour="black"))
+
+```
