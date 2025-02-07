@@ -8,7 +8,7 @@ Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grac
 Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
 Trowbridge , and Steven M. Chan 
 
-## computeMatrix
+## Calculate scores per genome regions
 ```Ruby
 # Load Deeptools
 module load deeptools/3.5.1
