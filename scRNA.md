@@ -11,6 +11,7 @@ library(Seurat)
 library(patchwork)
 library(ggplot2)
 library(RColorBrewer)
+library(AUCell)
 ```
 ### RNA data (GEX) and CITseq data processing: 
 
@@ -101,14 +102,6 @@ result$ratio = result[,1] - result[,2]
 
 ###Cell type annotation (code: Federico Gaiti)
 ```Ruby
-library(dplyr)
-library(Seurat)
-library(patchwork)
-library(ggplot2)
-library(AUCell)
-library(RColorBrewer)
-
-
 #input data
 sob.combined = readRDS("sob.combined.rds")
 
@@ -152,6 +145,11 @@ for (i in 1:num_batches) {
       score_mat <- rbind(score_mat, score_mat_i)
       gc(full = TRUE, verbose = TRUE)
 }
+
+score_mat_scaled = scale(score_mat)
+colnames(score_mat_scaled) = names(mylist)
+sob.combined_AUC <- AddMetaData(sob.combined, as.data.frame(score_mat_scaled))
+
 
 ##plots
 FeaturePlot(object = sob.combined_AUC, features = names(mylist)[i],order=TRUE, raster=TRUE, cols = c("blue", "red"),min.cutoff = "q10
