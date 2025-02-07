@@ -25,6 +25,15 @@ m_signal.bw         \
 --binSize 20 \
 --outFileSortedRegions mergedintervals_center.bed
 ```
+## Draw the heatmap
+```Ruby
+plotHeatmap -m aggregated_promoter3.gz \
+-out aggregated_promoter_heatmap3v2.pdf \
+--outFileSortedRegions sorted_aggregated_promoter.bed \
+--zMin 0 --zMax 0.8 \
+--boxAroundHeatmaps no \
+--kmeans 2
+```
 
 ## Optional: select regions from one cluster
 ```Ruby
