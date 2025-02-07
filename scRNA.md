@@ -100,6 +100,7 @@ result$ratio = result[,1] - result[,2]
 ```
 
 ###Cell type annotation (code: Federico Gaiti)
+```Ruby
 library(dplyr)
 library(Seurat)
 library(patchwork)
@@ -157,7 +158,7 @@ FeaturePlot(object = sob.combined_AUC, features = names(mylist)[i],order=TRUE, r
 ", max.cutoff = "q90"))
 
 FeaturePlot(object = sob.combined_AUC, features = names(mylist)[i],order=TRUE,split.by = "protocol", raster=TRUE, cols = c("blue", "red"),min.cutoff = "q10", max.cutoff = "q90"))
-
+```
 
 
 
