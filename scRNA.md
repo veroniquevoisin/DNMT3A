@@ -100,6 +100,66 @@ result$ratio = result[,1] - result[,2]
 ```
 
 ###Cell type annotation (code: Federico Gaiti)
+library(dplyr)
+library(Seurat)
+library(patchwork)
+library(ggplot2)
+library(AUCell)
+library(RColorBrewer)
+
+
+#input data
+sob.combined = readRDS("sob.combined.rds")
+
+inp_data = GetAssayData(sob.combined, assay = 'RNA', slot = 'counts') 
+
+##genesets
+
+genesets = read.csv("genesets.csv", stringsAsFactors=FALSE) ##genesets from Landau's paper containing genes specific to each cell type
+
+mylist = list()
+for (i in c(1:ncol(genesets))){
+  print(i)
+  genesets2 = unlist(genesets[,i])
+  genelist2 = rownames(inp_data)[which((rownames(inp_data) %in% genesets2))]
+  mylist[[i]] =  genelist2
+  print( genelist2)
+}
+
+names(mylist) = colnames(genesets)
+length(mylist)
+
+##parameters (running in batches to limit memory consumption)
+num_batches = 100
+num_cells <- ncol(inp_data)
+batch_size <- ceiling(num_cells/num_batches)
+score_mat <- c()
+print('Running AUCell scoring')
+
+
+##running AUCell
+for (i in 1:num_batches) {
+      print(paste('batch', i, Sys.time()))
+      ind1 <- (i-1)*batch_size + 1
+      ind2 <- i*batch_size
+      if (ind2 > num_cells) {
+        ind2 <- num_cells
+      }
+      gene_rankings <- AUCell::AUCell_buildRankings(inp_data[,ind1:ind2], plotStats = FALSE)
+      score_mat_i <- AUCell::AUCell_calcAUC(geneSets = mylist, rankings = gene_rankings, aucMaxRank = ceiling(0.25 * nrow(gene_rankings)) )
+      score_mat_i <- t(SummarizedExperiment::assay(score_mat_i, 'AUC'))
+      score_mat <- rbind(score_mat, score_mat_i)
+      gc(full = TRUE, verbose = TRUE)
+}
+
+##plots
+FeaturePlot(object = sob.combined_AUC, features = names(mylist)[i],order=TRUE, raster=TRUE, cols = c("blue", "red"),min.cutoff = "q10
+", max.cutoff = "q90"))
+
+FeaturePlot(object = sob.combined_AUC, features = names(mylist)[i],order=TRUE,split.by = "protocol", raster=TRUE, cols = c("blue", "red"),min.cutoff = "q10", max.cutoff = "q90"))
+
+
+
 
 ###  UMAP (code: Alex C.H. Liu)
 ```Ruby
