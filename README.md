@@ -30,6 +30,6 @@ mutation-driven CH in humans.
  * GSE255101:
    *  GSE254822 - [CITE-Seq] | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/scRNA.md)
    * GSE255100 - [bulkRNA]
-   * GSE255550 - [ChIP-seq]
+   * GSE255550 - [ChIP-seq] | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/chipseq.md)
    * GSE255788 - [RRBS]
 
