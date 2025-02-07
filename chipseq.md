@@ -33,3 +33,13 @@ m_signal.bw         \
 --binSize 20 \
 --outFileSortedRegions mergedintervals_center.bed
 ```
+
+## Draw the heatmap
+```Ruby
+plotHeatmap -m data_selected_aggregated2.gz \
+-out aggregated_promoter_heatmap3v3.pdf \
+-min -0.5 -max 2.5 \
+--boxAroundHeatmaps no 
+--heatmapHeight 10
+--heatmapWidth 2
+```
