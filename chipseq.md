@@ -26,7 +26,7 @@ m_signal.bw         \
 --outFileSortedRegions mergedintervals_center.bed
 ```
 
-## Optional: select regions from cluster 1
+## Optional: select regions from one cluster
 ```Ruby
 data <- read.delim("~/nonaggregated_promoter2", header=FALSE)
 sorted = read.delim("~/Dropbox (Bader Lab)/CSCTeam/CHAN/SC02/chipseq/sorted_aggregated_promoter.bed")
