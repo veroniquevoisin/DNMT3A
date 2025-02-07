@@ -26,6 +26,17 @@ m_signal.bw         \
 --outFileSortedRegions mergedintervals_center.bed
 ```
 
+##Optional: select regions from cluster 1
+```Ruby
+data <- read.delim("~/nonaggregated_promoter2", header=FALSE)
+sorted = read.delim("~/Dropbox (Bader Lab)/CSCTeam/CHAN/SC02/chipseq/sorted_aggregated_promoter.bed")
+cluster1= sorted[ which(sorted$deepTools_group == "cluster_1"),]
+dim(cluster1)
+data_selected = data[which(data$V4 %in% cluster1$name) ,]
+write.table(data_selected, "data_selected_aggregated.txt" ,sep="\t", quote=FALSE, row.names=FALSE, col.names=F)
+gzip -c /Users/veroniquevoisin/Dropbox\ \(Bader\ Lab\)/CSCTeam/CHAN/SC02/chipseq/data_selected_aggregated.txt > data_selected_aggregated2.gz
+```
+
 ## Draw the heatmap
 ```Ruby
 plotHeatmap -m data_selected_aggregated2.gz \
