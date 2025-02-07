@@ -100,7 +100,7 @@ result = FetchData(object = sob.combined, vars = c("B0157-CD45-2-TotalSeqB", "B0
 result$ratio = result[,1] - result[,2]
 ```
 
-###Cell type annotation (code: Federico Gaiti)
+### Cell type annotation (code: Federico Gaiti)
 ```Ruby
 #input data
 sob.combined = readRDS("sob.combined.rds")
