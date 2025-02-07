@@ -8,6 +8,7 @@ Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grac
 Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
 Trowbridge , and Steven M. Chan 
 
+```Ruby
 #!/bin/bash
 #BATCH -t 5:0:0
 #SBATCH --mem=10G 
@@ -31,3 +32,4 @@ m_signal.bw         \
 -p 6 \
 --binSize 20 \
 --outFileSortedRegions mergedintervals_center.bed
+```
