@@ -24,6 +24,21 @@ m_signal.bw         \
 -p 6 \
 --binSize 20 \
 --outFileSortedRegions mergedintervals_center.bed
+
+computeMatrix reference-point --referencePoint center \
+-b 2000 -a 2000 \
+-R allgenesmm10.bed \
+-S WT-VEH-2_H3K27me3_mm10_i77_dmnorm_signal.bw  \
+--skipZeros \
+-o WTVEH2.gz \
+-p 6 \
+--binSize 20 \
+--outFileSortedRegions aggregatedcenter2.bed  \
+--missingDataAsZero \
+--numberOfProcessors 4 
+
+
+
 ```
 ## Draw the heatmap
 ```Ruby
