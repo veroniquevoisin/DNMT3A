@@ -4,7 +4,7 @@
 
 #### load directory
 library(dplyr)
-library(Seurat)
+library(Seurat) 
 library(patchwork)
 library(ggplot2)
 library(RColorBrewer)
