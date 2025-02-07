@@ -8,16 +8,8 @@ Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grac
 Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
 Trowbridge , and Steven M. Chan 
 
+## computeMatrix
 ```Ruby
-#!/bin/bash
-#BATCH -t 5:0:0
-#SBATCH --mem=10G 
-#SBATCH -J FLT3bam
-#SBATCH -p himem 
-#SBATCH -c 1
-#SBATCH -N 1 
-#SBATCH -o %x-%j.out
-
 # Load Deeptools
 module load deeptools/3.5.1
 
@@ -42,4 +34,11 @@ plotHeatmap -m data_selected_aggregated2.gz \
 --boxAroundHeatmaps no 
 --heatmapHeight 10
 --heatmapWidth 2
+```
+
+```Ruby
+plotHeatmap -m data_selected_aggregated.gz \
+-out aggregated_promoter_heatmap3v2.pdf \
+-min -0.5 -max 2.5 \
+--boxAroundHeatmaps no
 ```
