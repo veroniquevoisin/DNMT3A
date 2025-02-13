@@ -17,7 +17,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(AUCell)
 ```
-### RNA data (GEX) and CITseq data processing: 
+### RNA data (GEX) and CITEseq data processing: 
 
 Pipeline adapted from Seurat (V4): [tutorial](https://satijalab.org/seurat/articles/get_started.html)
 
