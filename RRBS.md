@@ -1,4 +1,4 @@
-# CITE-seq
+# RRBS
 ## code from data included in manuscript - Ali Chegini :
 ***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs*** <br>
 Mohsen Hosseini , Veronique Voisin , Ali Chegini , Angelica Varesi , Severine Cathelin ,
