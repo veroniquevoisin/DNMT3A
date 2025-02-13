@@ -9,8 +9,8 @@ Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J
 Trowbridge , and Steven M. Chan 
 
 
-
-```{r}
+### Loading libraries and functions
+```Ruby
 library(methylKit)
 library(ggvenn)
 
@@ -26,7 +26,7 @@ source(file.path(modules_dir, 'AnnotatedRegionFilter.R'))
 source(file.path(modules_dir, 'MyGalaxyPlot.R'))
 ```
 
-# Loading Data
+### Loading Data
 
 ```{r}
 ### Load hyper parameters
