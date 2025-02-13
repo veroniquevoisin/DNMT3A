@@ -16,7 +16,6 @@ library(ggvenn)
 
 source('Settings.R')
 source(file.path(METHYLOMEANALYSIS_PATH, 'local_settings.R'))
-
 source(file.path(modules_dir, 'Filter4Comparison.R'))
 source(file.path(modules_dir, 'MakeFileName.R'))
 source(file.path(modules_dir, 'MyAnnotateRegions.R'))
@@ -27,11 +26,9 @@ source(file.path(modules_dir, 'MyGalaxyPlot.R'))
 ```
 
 ### Loading Data
-
-```{r}
+```Ruby
 ### Load hyper parameters
 source(file.path(modules_dir, 'GlobalMethylationHyperParameters.R'))
-
 
 ### Loading Bismark cytosine reports
 files_list <- list.files(APP_DB_PATH)
@@ -57,7 +54,6 @@ names(treatments) <- sample_ids
 sample_ids_bk <- sample_ids
 treatments_bk <- treatments
 
-
 if(!('myobj_bk' %in% ls())){
   ## be careful with this! you are gonna need lots of memory!
   myobj_bk <- methRead(
@@ -76,8 +72,8 @@ if(!('myobj_bk' %in% ls())){
 
 ```
 
-# excluding low quality samples.
-```{r}
+### Excluding low quality samples.
+```Ruby
 ### removing low quality samples
 TotalBases <- do.call(rbind,lapply(myobj_bk,dim)) %>%
   as.data.frame()
@@ -99,8 +95,8 @@ filtered_obj <- reorganize(
 )
 ```
 
-# DMRs
-```{r}
+### Estimating Differentially Methylated regions (DMRs) on 'RH_VEH_vs_WT_VEH'
+```Ruby
 selected_comparison <- 'RH_VEH_vs_WT_VEH'
 
 ### Preparing results directory
@@ -147,7 +143,7 @@ region_meth <- methylKit::unite(
   min.per.group = min_per_group_
 )
 
-#### Finding differentially methylated regions
+### Finding differentially methylated regions
 region_diff <- calculateDiffMeth(
   region_meth,
   mc.cores=10,
@@ -174,7 +170,8 @@ StoreDMRResults(
 
 ```
 
-```{r}
+### Estimating Differentially Methylated regions (DMRs) on 'RH_MET_vs_RH_VEH'
+```Ruby
 selected_comparison <- 'RH_MET_vs_RH_VEH'
 
 ### Preparing results directory
@@ -248,8 +245,8 @@ StoreDMRResults(
 
 ```
 
-Galaxy plots
-```{r fig.width= 7, fig.height= 5}
+### Viusalization using scatter plots
+```Ruby
 selected_comps <- ComparisonSets
 selected_region_conds <- c('ALL', 'PRO', 'ISL')
 selected_columns <- c(
@@ -259,7 +256,6 @@ selected_columns <- c(
   "annotation", "geneId", "distanceToTSS", "geneSymbol", "gene",
   "cov.Total"
 )
-
 
 
 dmrs <- list()
@@ -328,9 +324,9 @@ plots_list
 
 ```
 
-# Violin plot
+### Visualizaton using iolin plots
 
-```{r fig.width= 5, fig.height= 6}
+```Ruby
 selected_comps <- ComparisonSets
 selected_region_conds <- c('ALL', 'PRO', 'ISL')
 selected_columns <- c(
@@ -340,7 +336,6 @@ selected_columns <- c(
   "annotation", "geneId", "distanceToTSS", "geneSymbol", "gene",
   "cov.Total"
 )
-
 
 
 dmrs <- list()
@@ -399,13 +394,11 @@ for(selected_region_cond in selected_region_conds){
 
 plots_list
 
-
-
 ```
 
-# Venn plot
+### Venn Diagram
 
-```{r fig.width= 5, fig.height= 6}
+```Ruby
 selected_comps <- ComparisonSets
 selected_region_conds <- c('ALL', 'PRO', 'ISL')
 selected_columns <- c(
@@ -482,16 +475,15 @@ for(selected_region_cond in selected_region_conds){
 
 plots_list
 
-
 ```
 
-# Methylation Percentage
+### Calculation of Methylation Percentage
 
 DMRs were restricted to the ones that were hypomethylated in vehicle-treated Dnmt3aR878H/+ 655
 samples relative to Dnmt3aR878H/+ 656 samples. Each dot represents the average value of the DMRs in
 657 one sample. n=3 or 4 biological replicates for each condition.
 
-```{r fig.width= 5, fig.height=5}
+```Ruby
 selected_comps <- ComparisonSets
 selected_region_conds <- c('ALL', 'PRO', 'ISL')
 selected_columns <- c(
