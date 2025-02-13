@@ -176,7 +176,7 @@ org_dataset <- read_csv(file_dir) %>%
 head(org_dataset)
 ```
 
-### Separating ReadCounts and Metadata matrixes
+### Separating ReadCounts and Metadata matrices
 ```Ruby
 comparison_name <- 'RH_MET vs RH_VEH'
 
@@ -385,7 +385,7 @@ symbol_ranked_gene_list <- symbol_ranked_gene_list[order(symbol_ranked_gene_list
 ```
 
 
-### Enrichment Analysis
+### Enrichment Analysis part 1
 ```Ruby
 
 cond1 <- entrez_ranked_gene_list != 0
@@ -421,7 +421,7 @@ pw_id <- 'R-MMU-1428517'
 MyGSEAplot(gsea_obj = entrez_gsea_, pw_id = pw_id)
 
 ```
-### enrichment analysis part2
+### enrichment analysis part 2
 ```Ruby
 
 cond1 <- symbol_ranked_gene_list != 0
@@ -458,7 +458,7 @@ MyGSEAplot(gsea_obj = symbol_gsea_, pw_id = pw_id)
 
 ```
 
-### EPPERT_CE_HSC_LSC
+### enrichment analysis part3
 ```Ruby
 # EPPERT_CE_HSC_LSC
 gs_genes <- 'Abcb1, Adgrg6, Alcam, Baalc, Bcl11a, Cacnb2, Crhbp, Dapk1, Dram1, Elk3, Erg, Fam30a, Flt3, Frmd4b, Gucy1a1, Hla-drb4, Hlf, Hoxa5, Hoxb2, Hoxb3, Htr1f, Inpp4b, Kat6a, Mecom, Meis1, Myo5c, Plscr4, Ppp1r16b, Prkch, Rbpms, Rnf125, Slc25a36, Smarca1, Socs2, Spink2, Sptbn1, Tceal9, Tfpi, Tmem38b, Yes1, Znf165'
