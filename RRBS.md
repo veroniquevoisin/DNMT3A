@@ -245,7 +245,7 @@ StoreDMRResults(
 
 ```
 
-### Viusalization using scatter plots
+### Visualization using scatter plots
 ```Ruby
 selected_comps <- ComparisonSets
 selected_region_conds <- c('ALL', 'PRO', 'ISL')
