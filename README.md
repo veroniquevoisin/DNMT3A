@@ -29,7 +29,7 @@ mutation-driven CH in humans.
 *Data available under the GEO repository:* <br>
  * [GSE255101](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE255101):
    *  [GSE254822](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE254822) - [CITE-Seq] | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/scRNA.md)
-   * [GSE255100](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE255100) - [bulkRNA]  | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/bulkRNA.md)
+   * [GSE255100](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE255100) - [BulKRNA]  | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/bulkRNA.md)
    * [GSE255550](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE255550) - [ChIP-seq] | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/chipseq.md)
    * [GSE255788](https://www.ncbi.xyz/geo/query/acc.cgi?acc=GSE255788) - [RRBS] | [access to code](https://github.com/veroniquevoisin/DNMT3a/blob/main/RRBS.md)
 
