@@ -324,7 +324,7 @@ plots_list
 
 ```
 
-### Visualizaton using iolin plots
+### Visualizaton using violin plots
 
 ```Ruby
 selected_comps <- ComparisonSets
