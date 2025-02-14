@@ -263,11 +263,10 @@ head(assay(summed, "counts"))
 
 raw <- assay(summed, "counts")
 
-
 ```
 
 
-##Differential expression on the pseudobulk
+### Differential expression on the pseudobulk
 ```Ruby
 count= as.matrix(pseudo)
 
