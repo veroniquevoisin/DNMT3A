@@ -304,9 +304,7 @@ text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
 
 ##differential expression estimation of the comparison of condition MET MUT vs VEH MUT
 #Note: same code applies for other condition
-#MET_MUTvsVFH_MUT"
 my.contrasts <- makeContrasts(MET_MUTvsVFH_MUT=MET_MUT-VFH_MUT, levels = design )
-
 mycontrast = paste0("MET_MUTvsVFH_MUT_", myuniquepop[i])
 
 fit <- glmQLFit(y,design)
