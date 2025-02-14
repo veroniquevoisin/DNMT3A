@@ -318,11 +318,6 @@ myrank = cbind.data.frame(rownames(table2), table2$score)
 colnames(myrank) = c("gene", "score")
 myrank = myrank[ order(myrank$score, decreasing = TRUE),]
 
-myrank2 = cbind.data.frame(rownames(table2), table2$score, table2$logFC, table2$PValue, table2$FDR)
-colnames(myrank2) = c("gene", "score", "logFC", "PValue", "FDR")
-myrank2 = myrank2[ order(myrank2$score, decreasing = TRUE),]
-myrank2$mlog10p = -log10(myrank2$PValue)
-
 ```
 
 
