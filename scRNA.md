@@ -206,7 +206,7 @@ p = ggplot(df,
 
 ```
 
-###  extract pseudobulk based on cell populations or total cells
+###  Extract pseudobulk based on conditions and on cell populations or total cells
 ```Ruby
 library(dplyr)
 library(Seurat)
@@ -217,13 +217,13 @@ library(RColorBrewer)
 library(scuttle)
 library(SingleCellExperiment)
 
-#Bring in cells to keep (no Ery.3 and no Ery.4)
+# Bring in cells to keep (no Ery.3 and no Ery.4)
 cellstokeep = readRDS("cells_to_keep.rds")
 
 # Bring in Seurat object
 sob.combined_o <- readRDS("sob.rds")
 
-# filter Seurat object
+# Filter Seurat object
 sob.combined <- sob.combined_o[,colnames(sob.combined_o) %in% cellstokeep]
 
 # Extract raw counts and metadata to create SingleCellExperiment object
@@ -237,30 +237,25 @@ sob.combined <- Seurat::SetIdent(sob.combined, value = "orig.ident")
 sce <- SingleCellExperiment(assays = list(counts = counts), 
                            colData = metadata)
   
-# aggregate by group:
-sum_by <- c("cellgroup2", "sample")
+# Aggregate by group: #metadata1 contains information about condition
+sum_by <- c("metadata1", "sample")
 
 summed <- scuttle::aggregateAcrossCells(sce, id=colData(sce)[,sum_by])
 
-# add rownames using the information from the colData:
+# Add rownames using the information from the colData:
 colnames(summed) <- 
   apply(colData(summed)[,sum_by], 1, function(x) paste(x, collapse="_"))
 
 head(assay(summed, "counts"))
   
-  
 raw <- assay(summed, "counts") 
   
-saveRDS(raw, "raw1.rds.rds")
-
-
-
 ######
-sum_by <- c("cellgroup", "sample")
+sum_by <- c("metadata2, "sample") #metadata2 contains information about condition and cell type
 
 summed <- scuttle::aggregateAcrossCells(sce, id=colData(sce)[,sum_by])
 
-#/ add rownames using the information from the colData:
+# Add rownames using the information from the colData:
 colnames(summed) <-
   apply(colData(summed)[,sum_by], 1, function(x) paste(x, collapse="_"))
 
@@ -268,7 +263,7 @@ head(assay(summed, "counts"))
 
 raw <- assay(summed, "counts")
 
-saveRDS(raw, "/cluster/projects/chanlab/DNMT3a_scRNA_Mohsen_veronique/seurat_output/raw2_2_nov2023.rds")
+
 ```
 
 
