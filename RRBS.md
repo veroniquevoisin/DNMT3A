@@ -28,8 +28,36 @@ source(file.path(modules_dir, 'MyGalaxyPlot.R'))
 ### Loading Data
 ```Ruby
 ### Load hyper parameters
-source(file.path(modules_dir, 'GlobalMethylationHyperParameters.R'))
+N_CPU = 1
 
+tssRegion <- c(-1000,150)
+
+ComparisonSets <- c(
+  'RH_MET_vs_RH_VEH', 
+  'RH_VEH_vs_WT_VEH'
+)
+ComparisonDirMap <- c(
+  RH_MET_vs_RH_VEH = +1,
+  RH_VEH_vs_WT_VEH = -1
+)
+ComparisonSlugMap <- c(
+  RH_MET_vs_RH_VEH = 'R878/+ Metformin\nvs\nR878/+ Ctrl',
+  RH_VEH_vs_WT_VEH = 'R878/+ Ctrl\nvs\n+/+ Ctrl')
+ComparisonSlugMap <- ComparisonSlugMap[ComparisonSets]
+
+PvalueCutoff <- 0.01
+CX <- 'CpG'
+
+WindowSize <- 1000
+RegionSlug <- '1kbBin'
+
+RegionConds <- c('ALL', 'ISL', 'PRO')
+DeduplicationApp <- 'COV'
+
+MinCov <- 3 
+MinPerGroup <- 0L
+Strands <- c('*')
+OverLap <- 0
 ### Loading Bismark cytosine reports
 files_list <- list.files(APP_DB_PATH)
 cond1 <- grepl('.txt.gz', files_list)
