@@ -92,7 +92,7 @@ write.table(data_selected, "data_selected_aggregated.txt" ,sep="\t", quote=FALSE
 gzip -c data_selected_aggregated.txt > data_selected_aggregated2.gz
 ```
 
-## Draw the heatmap
+## Re-draw the heatmap
 ```Ruby
 plotHeatmap -m data_selected_aggregated2.gz \
 -out aggregated_promoter_heatmap3v3.pdf \
