@@ -649,9 +649,7 @@ plots_list
 
 ```
 
-```{r}
-sessionInfo()
-```
+
 
 
 
