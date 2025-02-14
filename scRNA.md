@@ -205,3 +205,71 @@ p = ggplot(df,
           axis.text=element_text(colour="black"))
 
 ```
+
+###  extract pseudobulk based on cell populations or total cells
+```Ruby
+library(dplyr)
+library(Seurat)
+library(patchwork)
+library(ggplot2)
+library(AUCell)
+library(RColorBrewer)
+library(scuttle)
+library(SingleCellExperiment)
+
+#Bring in cells to keep (no Ery.3 and no Ery.4)
+cellstokeep = readRDS("cells_to_keep.rds")
+
+# Bring in Seurat object
+sob.combined_o <- readRDS("sob.rds")
+
+# filter Seurat object
+sob.combined <- sob.combined_o[,colnames(sob.combined_o) %in% cellstokeep]
+
+# Extract raw counts and metadata to create SingleCellExperiment object
+counts <- sob.combined@assays$RNA@counts 
+metadata <- sob.combined@meta.data
+
+# Set up metadata as desired for aggregation and DE analysis
+sob.combined <- Seurat::SetIdent(sob.combined, value = "orig.ident")
+
+# Create single cell experiment object
+sce <- SingleCellExperiment(assays = list(counts = counts), 
+                           colData = metadata)
+  
+# aggregate by group:
+sum_by <- c("cellgroup2", "sample")
+
+summed <- scuttle::aggregateAcrossCells(sce, id=colData(sce)[,sum_by])
+
+# add rownames using the information from the colData:
+colnames(summed) <- 
+  apply(colData(summed)[,sum_by], 1, function(x) paste(x, collapse="_"))
+
+head(assay(summed, "counts"))
+  
+  
+raw <- assay(summed, "counts") 
+  
+saveRDS(raw, "raw1.rds.rds")
+
+
+
+######
+sum_by <- c("cellgroup", "sample")
+
+summed <- scuttle::aggregateAcrossCells(sce, id=colData(sce)[,sum_by])
+
+#/ add rownames using the information from the colData:
+colnames(summed) <-
+  apply(colData(summed)[,sum_by], 1, function(x) paste(x, collapse="_"))
+
+head(assay(summed, "counts"))
+
+raw <- assay(summed, "counts")
+
+saveRDS(raw, "/cluster/projects/chanlab/DNMT3a_scRNA_Mohsen_veronique/seurat_output/raw2_2_nov2023.rds")
+```
+
+
+
