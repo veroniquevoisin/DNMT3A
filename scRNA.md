@@ -305,10 +305,34 @@ options(repr.plot.width=10, repr.plot.height=10)
 mds <- plotMDS.DGEList(y, pch=19,, cex=2, main="MDS plot", col=mycolor  )
 text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
 
-
-
 mds <- plotMDS.DGEList(CPM, pch=19,, cex=2, main="MDS plot", col=mycolor  )
 text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
+
+##differential expression estimation of the comparison of condition MET MUT vs VEH MUT
+#Note: same code applies for other condition
+#MET_MUTvsVFH_MUT"
+my.contrasts <- makeContrasts(MET_MUTvsVFH_MUT=MET_MUT-VFH_MUT, levels = design )
+
+mycontrast = paste0("MET_MUTvsVFH_MUT_", myuniquepop[i])
+
+fit <- glmQLFit(y,design)
+qlf <- glmQLFTest(fit,coef=2, contrast = my.contrasts[])
+
+table2 = topTags(qlf, n = nrow(y))
+dim(table2)
+table2 = table2$table
+table2$score =  sign(table2$logFC) * -log10(table2$PValue)
+
+hist(table2$logFC, breaks=100, col="goldenrod2")
+myrank = cbind.data.frame(rownames(table2), table2$score)
+colnames(myrank) = c("gene", "score")
+myrank = myrank[ order(myrank$score, decreasing = TRUE),]
+
+myrank2 = cbind.data.frame(rownames(table2), table2$score, table2$logFC, table2$PValue, table2$FDR)
+colnames(myrank2) = c("gene", "score", "logFC", "PValue", "FDR")
+myrank2 = myrank2[ order(myrank2$score, decreasing = TRUE),]
+myrank2$mlog10p = -log10(myrank2$PValue)
+
 ```
 
 
