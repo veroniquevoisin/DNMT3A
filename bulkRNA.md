@@ -500,9 +500,9 @@ pw_id <- 'EPPERT_CE_HSC_LSC'
 MyGSEAplot(gsea_obj = gsea_, pw_id = pw_id)
 ```
 
-### pathway enrichment analysis using the Eppert HSC gene-set version 2
+### pathway enrichment analysis using the Ivanova geneset
 ```Ruby
-# EPPERT_CE_HSC_LSC
+# IVANOVA_HEMATOPOIESIS_STEM_CELL
 gs_genes <- 'Abcc12, Agxt, Arhgap32, Arhgap42, Arhgef28, Arl4c, Ash1l, Baalc, Bcl2l11, Camta1, Ccar1, Ccdc136, Ccdc185, Ccl19, Cd164l2, Cdip1, Cdk14, Cers4, Chn1, Chrna6, Chrnb1, Clps, Cobll1, Col18a1, Col4a1, Cpsf2, Cpxm1, Ctnnal1, Cxcl14, Cyp2d6, Cyp2e1, Ddit4, Def8, Dnajb13, Dnajc21, Dnmt3a, Dusp5, Dydc1, Efna3, Egr1, Emcn, Emp1, Eng, Esr1, Etv1, Etv3, Fam110b, Fam168b, Fam181b, Fbxw12, Foxb2, Frmd8, Fundc2, Gapdhs, Gata3, Gatad2a, Gem, Glb1l, Gnl1, Hnrnpr, Hook1, Hoxb2, Hyal1, Ifi44, Ifih1, Ift81, Igdcc4, Il36a, Inppl1, Iqgap2, Itga3, Itga9, Itih5, Jade1, Jun, Kcnj6, Kcnk15, Kif5a, Klhl26, Laptm4b, Lpar4, Lrrc49, Lrrtm4, Lypd1, Maff, Marchf9, Mef2d, Mex3a, Mirlet7a1, Misfa, Msi2, Mycbp2, Myo10, Ncoa2, Nfatc2, Nfix, Nfkbia, Nfkbie, Nkain3, Nkx2-8, Nr4a1, Nr4a2, Nrxn1, Nrxn3, Nsd3, Ntrk3, Paip1, Palmd, Pard6g, Pck1, Pdc, Pde4b, Pdf, Pdzd2, Peak1, Pex11a, Pglyrp2, Pitpnc1, Pkd2, Plac8l1, Polr2a, Ppp1r9a, Prcd, Prkacb, Prkce, Prkg1, Ptgr1, Ptprk, Pygm, Rasd1, Rbbp6, Rbm28, Rbx1, Rest, Rfpl4b, Rilpl1, Robo4, Rps6ka3, S100a5, Samd10, Sash1, Scaf11, Sec14l3, Selenbp1, Sema3d, Sema4c, Septin3, Serpinb8, Sgsm1, Siah2, Skil, Slc16a5, Slc23a2, Slc25a30, Slc35f1, Slc41a1, Slit2, Smad7, Smarca2, Smc5, Socs5, Sos1, Srek1, Sult4a1, Sv2a, Syn2, Syt11, Tbxa2r, Tcf25, Tcf4, Tctn2, Tgoln2, Tha1p, Trim61, Trim9, Tspan13, Tspan6, Usp34, Usp38, Vamp2, Vldlr, Vps37a, Wnt6, Wwc2, Zbtb20, Zbtb37, Zc2hc1a, Zc3h12c, Zcchc7, Zdbf2, Zmynd8, Zrsr2, Zxdb'
 gs_genes <- str_split(gs_genes, ', ')[[1]]
 term2gene <- data.frame(
@@ -533,7 +533,7 @@ MyGSEAplot(gsea_obj = gsea_, pw_id = pw_id)
 
 ### Comparing RH_VEH vs WT_VEH
 
-### Separating ReadCounts and Metadata matrixes
+### Separating ReadCounts and Metadata matrices
 ```Ruby
 
 comparison_name <- 'RH_VEH vs WT_VEH'
