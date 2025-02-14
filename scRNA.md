@@ -296,7 +296,7 @@ plotDensity(log2(CPM)   , col=mycolor)
 
 options(repr.plot.width=10, repr.plot.height=10)
 
-mds <- plotMDS.DGEList(y, pch=19,, cex=2, main="MDS plot", col=mycolor  )
+mds <- plotMDS.DGEList(y, pch=19, cex=2, main="MDS plot", col=mycolor  )
 text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
 
 mds <- plotMDS.DGEList(CPM, pch=19,, cex=2, main="MDS plot", col=mycolor  )
