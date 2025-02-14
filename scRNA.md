@@ -266,7 +266,7 @@ raw <- assay(summed, "counts")
 ```
 
 
-### Differential expression on the pseudobulk
+### Differential expression on the aggregated pseudobulk (condition or condition + cell type) using edgeR
 ```Ruby
 count= as.matrix(pseudo)
 
