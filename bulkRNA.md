@@ -1,9 +1,12 @@
----
-title: "Bulk-RNAseq Analysis"
-author: "Ali Chegini"
-date: "2025-01-01"
-output: html_document
----
+# bulk RNA-seq
+## code [Ali Chegini] from data included in manuscript :
+***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs*** <br>
+Mohsen Hosseini , Veronique Voisin , Ali Chegini , Angelica Varesi , Severine Cathelin ,
+Dhanoop Manikoth Ayyathan , Alex C.H. Liu , Yitong Yang , Vivian Wang , Abdula Maher,
+Eric Grignano , Julie A. Reisz , Angelo D’Alessandro , Kira Young , Yiyan Wu , Martina
+Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grace Egan ,
+Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
+Trowbridge , and Steven M. Chan 
 
 
 ```{r setup, include=FALSE}
