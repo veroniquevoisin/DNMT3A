@@ -11,7 +11,6 @@ rm(list = ls())
 gc()
 knitr::opts_chunk$set(echo = TRUE)
 root_dir <- dirname(getwd())
-knitr::opts_knit$set(root.dir = root_dir)
 ```
 
 ```{r}
