@@ -349,7 +349,7 @@ dds <- DESeq(
   )
 ```
 
-## Estimation differential expression between conditions RH_MET and RH_VEH
+## Organizing results and creating the rank file
 ```{r}
 res <- results(
   dds,
@@ -695,7 +695,7 @@ dds <- DESeq(
   )
 ```
       
-### Formatting the result of differential expression
+### Formatting the result of differential expression and create the rank file
 ```Ruby
 res <- results(
   dds,
