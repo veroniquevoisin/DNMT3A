@@ -8,16 +8,8 @@ Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grac
 Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
 Trowbridge , and Steven M. Chan 
 
-
-```{r setup, include=FALSE}
-rm(list = ls())
-gc()
-knitr::opts_chunk$set(echo = TRUE)
-root_dir <- dirname(getwd())
-knitr::opts_knit$set(root.dir = root_dir)
-```
-
-```{r}
+### Load libraries
+```Ruby
 library(biomaRt)
 library(enrichplot)
 
@@ -25,8 +17,8 @@ source('Settings.R')
 source(file.path(BULKRNASEQ_PATH, 'local_settings.R'))
 ```
 
-# Functions
-```{r}
+### Functions
+```Ruby
 MyGSEAplot <- function(gsea_obj, pw_id){
 
   row_number <- which(gsea_obj$ID == pw_id)
