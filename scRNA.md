@@ -267,14 +267,12 @@ raw <- assay(summed, "counts")
 
 ### Differential expression on the aggregated pseudobulk (condition or condition + cell type) using edgeR
 ```Ruby
-count= as.matrix(pseudo)
 
 library(edgeR)
 library(affy)
 
-#count = count[!duplicated(count$gene_name),]
 count_mx =  count
-#rownames(count_mx) = count$gene_name
+count= as.matrix(pseudo)
 
 myGroups = c( "MET_MUT", "MET_MUT", "MET_WT",  "MET_WT" ,
 "VFH_MUT" ,"VFH_MUT" , "VFH_WT" , "VFH_WT" )
@@ -302,8 +300,8 @@ text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
 mds <- plotMDS.DGEList(CPM, pch=19,, cex=2, main="MDS plot", col=mycolor  )
 text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
 
-##differential expression estimation of the comparison of condition MET MUT vs VEH MUT
-#Note: same code applies for other condition
+## Differential expression estimation of the comparison of condition MET MUT vs VEH MUT
+## Note: same code applies for other condition
 my.contrasts <- makeContrasts(MET_MUTvsVFH_MUT=MET_MUT-VFH_MUT, levels = design )
 mycontrast = paste0("MET_MUTvsVFH_MUT_", myuniquepop[i])
 
