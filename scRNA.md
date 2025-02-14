@@ -267,4 +267,50 @@ raw <- assay(summed, "counts")
 ```
 
 
+##Differential expression on the pseudobulk
+```Ruby
+count= as.matrix(pseudo)
+
+library(edgeR)
+library(affy)
+
+#count = count[!duplicated(count$gene_name),]
+count_mx =  count
+#rownames(count_mx) = count$gene_name
+
+myGroups = c( "MET_MUT", "MET_MUT", "MET_WT",  "MET_WT" ,
+"VFH_MUT" ,"VFH_MUT" , "VFH_WT" , "VFH_WT" )
+mycolor= c(rep("blue",2), rep("red3",  2), rep("yellow4", 2),rep("green4", 2) )
+y <- DGEList(counts=count_mx,group=factor(myGroups))
+
+keep <- filterByExpr(y)
+print(c('the # of genes remaining after low count genes are removed is: ', nrow(y) )) 
+y <- y[keep,keep.lib.sizes=FALSE]
+y <- calcNormFactors(y)
+design <- model.matrix(~0 + myGroups )
+y <- estimateDisp(y,design)
+barplot(y$samples$lib.size, main="library size", names.arg=colnames(count_mx),  las=2, cex.names=0.5, las=2, col=mycolor  )
+CPM <- edgeR::cpm(y , normalized.lib.sizes=TRUE)
+CPM2 <- edgeR::cpm(y , normalized.lib.sizes=FALSE)
+dim(CPM)
+plotDensity(log2(CPM2)  , col=mycolor)
+plotDensity(log2(CPM)   , col=mycolor)
+
+options(repr.plot.width=10, repr.plot.height=10)
+
+#labels = metadata$Group
+
+# save the plot 
+#pdf(paste0(output,"/MDSplot_analysis_pairs.pdf"))
+mds <- plotMDS.DGEList(y, pch=19,, cex=2, main="MDS plot", col=mycolor  )
+text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
+
+
+
+mds <- plotMDS.DGEList(CPM, pch=19,, cex=2, main="MDS plot", col=mycolor  )
+text(mds$x, mds$y, labels=colnames(count_mx), col="BLACK", cex=1)
+```
+
+
+
 
