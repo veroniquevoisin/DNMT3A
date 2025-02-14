@@ -1,5 +1,5 @@
 # CHIP-seq
-## code from data included in manuscript :
+## Code from data included in manuscript :
 ***Metformin reduces the competitive advantage of Dnmt3a R878H HSPCs*** <br>
 Mohsen Hosseini , Veronique Voisin , Ali Chegini , Angelica Varesi , Severine Cathelin ,
 Dhanoop Manikoth Ayyathan , Alex C.H. Liu , Yitong Yang , Vivian Wang , Abdula Maher,
