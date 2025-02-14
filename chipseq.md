@@ -39,7 +39,8 @@ plotHeatmap -m aggregated_promoter3.gz \
 
 ## Optional: select regions from one cluster
 ```Ruby
-data <- read.delim("~/nonaggregated_promoter2", header=FALSE)
+##unzip aggregated_promoter3.gz
+data <- read.delim("~/aggregated_promoter3", header=FALSE)
 sorted = read.delim("~/sorted_aggregated_promoter.bed")
 cluster1= sorted[ which(sorted$deepTools_group == "cluster_1"),]
 data_selected = data[which(data$V4 %in% cluster1$name) ,]
@@ -57,9 +58,4 @@ plotHeatmap -m data_selected_aggregated2.gz \
 --heatmapWidth 2
 ```
 
-```Ruby
-plotHeatmap -m data_selected_aggregated.gz \
--out aggregated_promoter_heatmap3v2.pdf \
--min -0.5 -max 2.5 \
---boxAroundHeatmaps no
-```
+
