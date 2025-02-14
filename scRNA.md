@@ -112,7 +112,6 @@ sob.combined = readRDS("sob.combined.rds")
 inp_data = GetAssayData(sob.combined, assay = 'RNA', slot = 'counts') 
 
 ##genesets
-
 genesets = read.csv("genesets.csv", stringsAsFactors=FALSE) ##genesets from Landau's paper containing genes specific to each cell type
 
 mylist = list()
