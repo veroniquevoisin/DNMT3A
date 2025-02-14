@@ -14,29 +14,16 @@ Trowbridge , and Steven M. Chan
 module load deeptools/3.5.1
 
 computeMatrix reference-point --referencePoint TSS \
--b 5000 -a 5000 \
--R allgenesmm10.bed \
--S 1_0EGB_020IPMCC_WT-VEH-1_H3K27me3_mm10_i76_dmnorm_signal.bw  3_0EGD_020IPMCC_WT-MET-1_H3K27me3_mm10_i78_dmnorm_si
-gnal.bw 5_0EFL_020IPMCC_RH-VEH-1_H3K27me3_mm10_i52_dmnorm_signal.bw 7_0EGG_020IPMCC_RH-MET-1_H3K27me3_mm10_i82_dmnor
-m_signal.bw         \
---skipZeros \
--o output.gz \
--p 6 \
---binSize 20 \
---outFileSortedRegions mergedintervals_center.bed
-
-computeMatrix reference-point --referencePoint center \
 -b 2000 -a 2000 \
 -R allgenesmm10.bed \
--S WT-VEH-2_H3K27me3_mm10_i77_dmnorm_signal.bw  \
+-S 0_0EH4_020IPMCC_BM-Pooled_Input_mm10_i85_uniqnorm_signal.bw WT_VEH_aggregated.bw WT_MET_aggregated.bw RH_VEH_aggregated.bw RH_MET_aggregated.bw  \
 --skipZeros \
--o WTVEH2.gz \
+-o aggregated_promoter3.gz \
 -p 6 \
 --binSize 20 \
---outFileSortedRegions aggregatedcenter2.bed  \
+--outFileSortedRegions aggregatedpromoter_center2.bed  \
 --missingDataAsZero \
 --numberOfProcessors 4 
-
 
 
 ```
