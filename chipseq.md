@@ -8,6 +8,50 @@ Fiumara , Samuele Ferrari , Luigi Naldini , Federico Gaiti , Shraddha Pai , Grac
 Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J.
 Trowbridge , and Steven M. Chan 
 
+
+### Merging the bigwig files
+```Ruby
+#!/bin/bash
+
+#conda install -c bioconda ucsc-bigwigmerge
+#conda install -c bioconda ucsc-bedGraphToBigWig
+#download https://github.com/igvteam/igv/blob/master/genomes/sizes/mm10.chrom.sizes
+
+
+##WT VEH
+bigWigMerge /Users/veroniquevoisin/bigwig/1_0EGB_020IPMCC_WT-VEH-1_H3K27me3_mm10_i76_dmnorm_signal.bw /Users/veroniquevoisin/bigwig/2_0EGC_020IPMCC_WT-VEH-2_H3K27me3_mm10_i77_dmnorm_signal.bw  WT_VEH.bedgraph;
+
+sort -k1,1 -k2,2n WT_VEH.bedgraph | \
+awk 'BEGIN{OFS = "\t"}($5 = $4/3){print $1,$2,$3,$5}' > WT_VEH_adjusted.bedgraph;
+
+bedGraphToBigWig WT_VEH_adjusted.bedgraph mm10.chrom.sizes WT_VEH_aggregated.bw;
+
+
+##WT MET
+bigWigMerge /Users/veroniquevoisin/bigwig/3_0EGD_020IPMCC_WT-MET-1_H3K27me3_mm10_i78_dmnorm_signal.bw /Users/veroniquevoisin/bigwig/4_0EGE_020IPMCC_WT-MET-2_H3K27me3_mm10_i80_dmnorm_signal.bw  WT_MET.bedgraph;
+
+sort -k1,1 -k2,2n WT_MET.bedgraph | \
+awk 'BEGIN{OFS = "\t"}($5 = $4/3){print $1,$2,$3,$5}' > WT_MET_adjusted.bedgraph;
+
+bedGraphToBigWig WT_MET_adjusted.bedgraph mm10.chrom.sizes WT_MET_aggregated.bw;
+
+##RH VEH
+bigWigMerge /Users/veroniquevoisin/bigwig/5_0EFL_020IPMCC_RH-VEH-1_H3K27me3_mm10_i52_dmnorm_signal.bw /Users/veroniquevoisin/bigwig/6_0EGF_020IPMCC_RH-VEH-2_H3K27me3_mm10_i81_dmnorm_signal.bw RH_VEH.bedgraph;
+
+sort -k1,1 -k2,2n RH_VEH.bedgraph | \
+awk 'BEGIN{OFS = "\t"}($5 = $4/3){print $1,$2,$3,$5}' > RH_VEH_adjusted.bedgraph;
+
+bedGraphToBigWig RH_VEH_adjusted.bedgraph mm10.chrom.sizes RH_VEH_aggregated.bw;
+
+##RH MET
+bigWigMerge /Users/veroniquevoisin/bigwig/8_0EGH_020IPMCC_RH-MET-2_H3K27me3_mm10_i84_dmnorm_signal.bw /Users/veroniquevoisin/bigwig/7_0EGG_020IPMCC_RH-MET-1_H3K27me3_mm10_i82_dmnorm_signal.bw RH_MET.bedgraph;
+
+sort -k1,1 -k2,2n RH_MET.bedgraph | \
+awk 'BEGIN{OFS = "\t"}($5 = $4/3){print $1,$2,$3,$5}' > RH_MET_adjusted.bedgraph;
+
+bedGraphToBigWig RH_MET_adjusted.bedgraph mm10.chrom.sizes RH_MET_aggregated.bw;
+```
+
 ## Calculate scores per genome regions
 ```Ruby
 # Load Deeptools
