@@ -9,22 +9,305 @@ Aaron D. Schimmer , Gary D. Bader , John E. Dick , Stephanie Z. Xie , Jennifer J
 Trowbridge , and Steven M. Chan 
 
 
-### Loading libraries and functions
+### Loading libraries
 ```Ruby
 library(methylKit)
 library(ggvenn)
+library(ggpubr)
+library(tidyverse)
+library(dplyr)
+library(viridis)
+library(BiocParallel)
+register(MulticoreParam(20))
 
 source('Settings.R')
 source(file.path(METHYLOMEANALYSIS_PATH, 'local_settings.R'))
-source(file.path(modules_dir, 'Filter4Comparison.R'))
-source(file.path(modules_dir, 'MakeFileName.R'))
-source(file.path(modules_dir, 'MyAnnotateRegions.R'))
-source(file.path(modules_dir, 'StoreDMRResults.R'))
-source(file.path(modules_dir, 'LoadDMRs.R'))
-source(file.path(modules_dir, 'AnnotatedRegionFilter.R'))
-source(file.path(modules_dir, 'MyGalaxyPlot.R'))
 ```
 
+
+### Functions
+```Ruby
+
+
+MyAnnotateRegions <- function (regions, TxDb, annoDb, tssRegion = c(-3000, 3000))
+{
+  ### The original function is DMRichR::annotateRegions
+  ### I modified it to be able to change tssRegion window
+  ### The original function only consider 3kb up and down stream
+  
+  genome <- TxDb %>% GenomeInfoDb::genome() %>% unique()
+  print(glue::glue("Annotating {tidyRegions} regions from {genome} with gene symbols", 
+    tidyRegions = length(regions)))
+  if (is(TxDb, "EnsDb")) {
+    genome <- dplyr::case_when(GenomeInfoDb::genome(TxDb) == 
+       "GRCh38" ~ "hg38", GenomeInfoDb::genome(TxDb) == 
+       "GRCm38" ~ "mm10", GenomeInfoDb::genome(TxDb) == 
+       "Mmul_10" ~ "rheMac10", GenomeInfoDb::genome(TxDb) == 
+       "Mmul_8.0.1" ~ "rheMac8", GenomeInfoDb::genome(TxDb) == 
+       "Rnor_6.0" ~ "rn6", GenomeInfoDb::genome(TxDb) == 
+       "GRCz11" ~ "danRer11", GenomeInfoDb::genome(TxDb) == 
+       "GRCg6a" ~ "galGal6", GenomeInfoDb::genome(TxDb) == 
+       "ARS-UCD1.2" ~ "bosTau9", GenomeInfoDb::genome(TxDb) == 
+       "BDGP6.28" ~ "dm6", GenomeInfoDb::genome(TxDb) == 
+       "Sscrofa11.1" ~ "susScr11", GenomeInfoDb::genome(TxDb) == 
+       "CanFam3.1" ~ "canFam3") %>% unique()
+  }
+  CpGs <- DMRichR::getCpGs(genome)
+  regionsCpG <- regions %>% plyranges::join_overlap_left(CpGs %>% 
+    plyranges::filter(type == "islands") %>% plyranges::select(CpG.Island = type)) %>% 
+    unique() %>% plyranges::join_overlap_left(CpGs %>% plyranges::filter(type == 
+    "shores") %>% plyranges::select(CpG.Shore = type)) %>% 
+    unique() %>% plyranges::join_overlap_left(CpGs %>% plyranges::filter(type == 
+    "shelves") %>% plyranges::select(CpG.Shelf = type)) %>% 
+    unique() %>% plyranges::join_overlap_left(CpGs %>% plyranges::filter(type == 
+    "inter") %>% plyranges::select(Open.Sea = type)) %>% 
+    unique() %>% plyranges::mutate(CpG.Island = dplyr::case_when(CpG.Island == 
+    "islands" ~ "Yes", TRUE ~ "No"), CpG.Shore = dplyr::case_when(CpG.Shore == 
+    "shores" ~ "Yes", TRUE ~ "No"), CpG.Shelf = dplyr::case_when(CpG.Shelf == 
+    "shelves" ~ "Yes", TRUE ~ "No"), Open.Sea = dplyr::case_when(Open.Sea == 
+    "inter" ~ "Yes", TRUE ~ "No"))
+  if (is(TxDb, "EnsDb")) {
+    GenomeInfoDb::seqlevelsStyle(regionsCpG) <- "Ensembl"
+  }
+  
+  
+  regionsCpG %>% ChIPseeker::annotatePeak(tssRegion = tssRegion, TxDb = TxDb, annoDb = annoDb, 
+    overlap = "all", verbose = FALSE) %>% dplyr::as_tibble() %>% 
+    dplyr::select(-tidyselect::any_of(c("strand", "index.start", 
+      "index.end", "index.width", "area", "geneChr", "geneStart", 
+      "geneEnd", "geneLength", "geneStrand", "transcriptId", 
+      "transcriptBiotype", "ENTREZID"))) %>% dplyr::mutate(annotation = gsub(" \\(.*", 
+    "", annotation)) %>% dplyr::rename_with(~dplyr::case_when(. == 
+    "seqnames" ~ "chr", . == "L" ~ "CpGs", . == "beta" ~ 
+    "betaCoefficient", . == "stat" ~ "statistic", . == "pval" ~ 
+    "p.value", . == "qval" ~ "q.value", . == "SYMBOL" ~ 
+    "geneSymbol", . == "GENENAME" ~ "gene", TRUE ~ .)) %>% 
+    return()
+}
+
+MakeFileName <- function(
+    region_,
+    min_cov_,
+    min_per_group_,
+    comparison_,
+    dataset_name)
+{
+  
+  dataset_name <- glue::glue('{dataset_name}_Comp:{comparison_}_Region:{region_}_MinCov:{min_cov_}_MinPerGroup:{min_per_group_}')
+  
+  return(dataset_name)
+}
+
+AnnoRegionFilter <- list(
+  'ALL' = list(
+    'cond' = function(x) rep(T, nrow(x)),
+    'slug' = 'ALL'),
+  'PRO' = list(
+    'cond' = function(x) (x$annotation %in% c('Promoter')),
+    'slug' = 'PRO'),
+  'ISL' = list(
+    'cond' = function(x) (x$CpG.Island %in% c('Yes')), 
+    'slug' = 'ISL'),
+  'Shelf' = list(
+    'cond' = function(x) (x$CpG.Shelf %in% c('Yes')), 
+    'slug' = 'Shelf'),
+  'Shore' = list(
+    'cond' = function(x) (x$CpG.Shore %in% c('Yes')), 
+    'slug' = 'Shore'),
+  'Open.Sea' = list(
+    'cond' = function(x) (x$Open.Sea == 'Yes'), 
+    'slug' = 'Open.Sea')
+)
+
+MyGalaxyPlot <- function(
+  data_set_,
+  region_cond,
+  col_name_map,
+  comparison_slug_map,
+  lrf,
+  results_slug = 'Galaxy'
+  )
+{
+  
+  myplot <- function(dtt, condition_slug = 'All'){
+    
+    dtt <- dtt[dtt$V1 <=0, ]
+    maxx <- max(abs(dtt))
+
+    title_ <- condition_slug
+    y_label <- str_replace_all(comparison_slug_map[col_name_map['V1']], '\n', '    ')
+    x_label <- str_replace_all(comparison_slug_map[col_name_map['V2']], '\n', '    ')
+    
+    
+    p1 <- ggscatter(
+      data = dtt,
+      x = 'V2',
+      y = 'V1',
+      size = 1
+    ) + 
+      # geom_hline(yintercept=0, linetype="dashed", color = "red") +
+      geom_vline(xintercept=0, linetype="dashed", color = "red") +
+      scale_color_viridis(option="viridis") + theme(legend.position="none") +
+      scale_y_continuous(n.breaks = 10, 
+                         limits = c(0, -maxx),
+                         trans = "reverse"
+      ) +
+      scale_x_continuous(n.breaks = 10, limits = c(-maxx, maxx)) +
+      xlab(x_label) + 
+      ylab(y_label) +
+      ggtitle(title_)
+    
+    file_name <- glue::glue('{results_slug}_{condition_slug}.png')
+    file_dir <- file.path(lrf, file_name)
+    ggsave(file_dir, p1, units="in", width=7, height=5, dpi=300)
+    
+    return(p1)
+  }
+  
+  
+  
+  
+  ## results dir preparation
+  lrf <- file.path(
+    lrf,
+    'Plots'
+  )
+  if(!(dir.exists(lrf))){
+    dir.create(lrf)
+  }
+  
+  
+  anno_cols_temp <- c(
+    "CpG.Island",
+    "CpG.Shelf", "Open.Sea", "annotation",
+    "geneId", "distanceToTSS", "geneSymbol",
+    "gene")
+
+  data_set_ <- data_set_[,c('V1', 'V2', anno_cols_temp)]
+  
+  
+  cond_slug <- glue::glue('{region_cond$slug}')
+  data_set_ <- data_set_[region_cond$cond(data_set_),]
+  
+  p <- myplot(
+    dtt = data_set_[,c('V1','V2')],
+    condition_slug = cond_slug
+  )
+  
+  return(p)
+}
+
+
+LoadDMRs <- function(
+  file_name,
+  lrf)
+{
+  
+  lrf <- file.path(
+    lrf, 
+    'Comparisons',
+    file_name)
+  
+  dtt <- read_tsv(lrf) %>%
+    as.data.frame(dtt)
+  
+  cov_columns <- grepl(
+    pattern = 'cov.',
+    x = colnames(dtt),
+    fixed = T)
+  cov_ <- rowSums(dtt[,cov_columns], na.rm = T)
+  dtt$cov.Total<- cov_
+  
+  
+  return(dtt)
+}
+
+StoreDMRResults <- function(
+    region_meth,
+    region_diff,
+    comparison_,
+    comparison_dir,
+    organism_,
+    txdb_,
+    results_slug = 'Annotated'){
+  
+  
+  
+  ### Preparing coverage data
+  dtt <- methylKit::getData(region_meth)
+
+  cov_index <- paste('cov', region_meth@sample.ids, sep = '.')
+  names(cov_index) <- region_meth@coverage.index
+  
+  Cs_index <- paste('numCs', region_meth@sample.ids, sep = '.')
+  names(Cs_index) <- region_meth@numCs.index
+  
+  Ts_index <- paste('numTs', region_meth@sample.ids, sep = '.')
+  names(Ts_index) <- region_meth@numTs.index
+  
+  anno_col <- c(cov_index,Cs_index,Ts_index)
+  colnames(dtt)[as.numeric(names(anno_col))] <- anno_col
+  
+  ### Preparing comparison data
+  region_diff <- methylKit::getData(region_diff)
+  region_diff$dataset_name <- results_slug
+  region_diff$comparison_name <- comparison_
+  
+  ### Merging coverage and comparison
+  merge_columns <- c("chr", "start", "end", "strand")
+  
+  dtt <- merge(
+    x = dtt,
+    y = region_diff,
+    by = merge_columns
+  )
+  
+  region_diff_granges <- as(dtt,"GRanges")
+  seqlevelsStyle(region_diff_granges) <- "UCSC"
+  
+  region_anno <- region_diff_granges %>% MyAnnotateRegions(
+    TxDb = txdb_, 
+    annoDb = organism_, 
+    tssRegion = tssRegion
+    ) %>%
+    as.data.frame()
+
+  file_name <- glue::glue('{results_slug}.tsv')
+  write_tsv(region_anno, file.path(comparison_dir,file_name))
+
+  return(1)
+}
+
+Filter4Comparison <- function(
+    myobj,
+    comparison_
+){
+  groups_ <- strsplit(
+    x = as.character(comparison_),
+    split = '_vs_',
+    fixed = T
+  )[[1]]
+  
+  sample_ids <- names(filtered_obj@treatment)
+  treated_slug <- groups_[1]
+  control_slug <- groups_[2]
+  cond1 <- grepl(pattern = control_slug, x = sample_ids, fixed = T)
+  cond2 <- grepl(pattern = treated_slug, x = sample_ids, fixed = T)
+  sub_sample_ids <- sample_ids[cond1 | cond2]
+  names(sub_sample_ids) <- sub_sample_ids
+  sub_treatments <- rep(0, length(sub_sample_ids))
+  names(sub_treatments) <- sub_sample_ids
+  sub_treatments[grepl(treated_slug, sub_sample_ids, fixed = T)] <- 1
+  sub_myobj  <- reorganize(
+    myobj,
+    sample.ids=sub_sample_ids,
+    treatment=sub_treatments
+  )
+  
+  return(sub_myobj)
+  
+}
+```
 ### Loading Data
 ```Ruby
 ### Load hyper parameters
